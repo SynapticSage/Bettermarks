@@ -9,10 +9,16 @@
 debug=0
 
 bookmark_file="${HOME}/.fs-bookmarks"
+var_file="${HOME}/.fs-vars"
 if [[ ! -f ${bookmark_file} ]]
 then
     echo Creating $bookmark_file
     touch $bookmark_file
+fi
+if [[ ! -f ${var_file} ]]
+then
+    echo Creating $var_file
+    touch $var_file
 fi
 
 ##########################
@@ -20,6 +26,7 @@ fi
 ##########################
 let LIST=0
 let DELETE_ALL=0
+let VAR=0
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -29,6 +36,10 @@ do
     case $key in
     -l|--list)
         let LIST=1
+        shift # past argument
+        ;;
+    -s|--var|-v|--symbol)
+        let VAR=1
         shift # past argument
         ;;
     --delete-all)
@@ -72,6 +83,7 @@ then
         cat $bookmark_file | sed 's/\<alias\>//g' | sed 's/cd //g' | sed 's/=/\t=>\t/g'
         #cat $bookmark_file
         source $bookmark_file
+        source $var_file
     fi
 elif (($DELETE_ALL == 1))
 then
@@ -85,6 +97,16 @@ then
     cp $bookmark_file ${bookmark_file}.bak
     cat $bookmark_file | awk -F '[ =]{1,2}' "$delete_awk_program" > $bookmark_file
     unalias ${1^^p} &> /dev/null
+elif (($VAR == 1))
+then
+    bookmark_name=${1:-""}
+    if [[ -n $var_name ]]
+    then
+        echo Adding $1 to $var_file
+        var=${2:-$(pwd)}
+        echo "${var_name^^}='$var'" >> $var_file
+        source $var_file
+    fi
 else
     bookmark_name=${1:-""}
     if [[ -n $bookmark_name ]]
@@ -92,7 +114,9 @@ else
         echo Adding $1 to $bookmark_file
         bookmark_location=${2:-$(pwd)}
         echo "alias ${bookmark_name^^}='cd $bookmark_location'" >> $bookmark_file
+        echo "${bookmark_name^^}='$bookmark_location'" >> $var_file
         source $bookmark_file
+        source $var_file
     else
         echo no input given
     fi
