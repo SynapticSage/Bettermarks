@@ -25,7 +25,7 @@ You can display available bookmarks by,
 
 `bookmark`
 
-For each bookmarked folder, bettermarks generates an alias `NAME_OF_BOOKMARK` in all future zsh/bash sessions: `alias cd NAME_OF_BOOKMARK=current_working_directory`. I.e., no manual adding of shortcuts to your .bashrc/.zshrc. In addition, bettermarks creates a new variable becomes available in every session `$NAME_OF_BOOKMARK` evaluating to that directory. 
+For each bookmarked folder, bettermarks generates an alias `NAME_OF_BOOKMARK` in all future zsh/bash sessions: `alias cd NAME_OF_BOOKMARK=current_working_directory`. I.e., no manual adding of shortcuts to your .bashrc/.zshrc. In addition, bettermarks creates a a variable in every future shell session `$NAME_OF_BOOKMARK` that evalutes to your directory. 
 
 To go back to a bookmarked folder in any future shell session, just type `NAME_OF_BOOKMARK` in all caps. (Caps is used to reduce the probability of a symbol collision.) In addition, not only are aliases created to nav to those folders, but variables that can be used in commands as $NAME_OF_BOOKMARK. Variable storage and bookmarks span across sessions. 
 
