@@ -70,6 +70,18 @@ then
     echo "DELETE         = ${DELETE}"
 fi
 
+function show_bookmarks()
+{
+        echo ---------------------------------------- | lolcat
+        printf '\tAvailable bookmarks' | lolcat
+        echo ---------------------------------------- | lolcat
+        cat $bookmark_file | sed 's/\<alias\>//g' | sed 's/cd //g' | sed 's/=/\t=>\t/g'
+        #cat $bookmark_file
+        echo refreshing bookmarks and variables...
+        source $bookmark_file
+        source $var_file
+}
+
 #####################
 ## PERFORM ACTIONS ##
 #####################
@@ -77,13 +89,7 @@ if (($LIST == 1))
 then
     if [[ -n $(cat $bookmark_file) ]]
     then
-        echo ---------------------------------------- | lolcat
-        printf '\tAvailable bookmarks' | lolcat
-        echo ---------------------------------------- | lolcat
-        cat $bookmark_file | sed 's/\<alias\>//g' | sed 's/cd //g' | sed 's/=/\t=>\t/g'
-        #cat $bookmark_file
-        source $bookmark_file
-        source $var_file
+        show_bookmarks
     fi
 elif (($DELETE_ALL == 1))
 then
@@ -106,6 +112,11 @@ then
         var=${2:-$(pwd)}
         echo "${var_name^^}='$var'" >> $var_file
         source $var_file
+    else
+        echo ---------------------------------------- | lolcat
+        printf '\tAvailable variables' | lolcat
+        echo ---------------------------------------- | lolcat
+        cat $var_file | sed 's/\<export\>//g' | sed 's/cd //g' | sed 's/=/\t=>\t/g'
     fi
 else
     bookmark_name=${1:-""}
@@ -114,10 +125,10 @@ else
         echo Adding $1 to $bookmark_file
         bookmark_location=${2:-$(pwd)}
         echo "alias ${bookmark_name^^}='cd $bookmark_location'" >> $bookmark_file
-        echo "${bookmark_name^^}='$bookmark_location'" >> $var_file
+        echo "export ${bookmark_name^^}='$bookmark_location'" >> $var_file
         source $bookmark_file
         source $var_file
     else
-        echo no input given
+        show_bookmarks
     fi
 fi
