@@ -8,6 +8,12 @@
 
 debug=0
 
+if [[ -n $(which nvim) ]]
+then
+    editor='nvim'
+else
+    editor='vi'
+fi
 bookmark_file="${HOME}/.fs-bookmarks"
 var_file="${HOME}/.fs-vars"
 if [[ ! -f ${bookmark_file} ]]
@@ -27,6 +33,7 @@ fi
 let LIST=0
 let DELETE_ALL=0
 let VAR=0
+let EDIT=0
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -44,6 +51,10 @@ do
         ;;
     --delete-all)
     let DELETE_ALL=1
+    shift # past argument
+    ;;
+    -e|--edit)
+    let EDIT=1
     shift # past argument
     ;;
     -d|--delete)
@@ -91,6 +102,9 @@ then
     then
         show_bookmarks
     fi
+elif (($EDIT == 1))
+then
+    $editor $bookmark_file $var_file
 elif (($DELETE_ALL == 1))
 then
     echo Deleting entire bookmark list
