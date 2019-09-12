@@ -25,14 +25,15 @@ You can display available bookmarks by,
 
 `bookmark`
 
-For each bookmarked folder, an alias is created with your `name_of_bookmark`, and a bash/zsh variable which can be accessed during any command as `$name_of_bookmark`. 
+For each bookmarked folder, bettermarks generates an alias `NAME_OF_BOOKMARK` in all future zsh/bash sessions: `alias cd NAME_OF_BOOKMARK=current_working_directory`. I.e., no manual adding of shortcuts to your .bashrc/.zshrc. In addition, bettermarks creates a a variable in every future shell session `$NAME_OF_BOOKMARK` that evalutes to your directory. 
 
-You can even store variables that will show up in every bash session, separate from the process of creating bookmarks as,
+To go back to a bookmarked folder in any future shell session, just type `NAME_OF_BOOKMARK` in all caps. (Caps is used to reduce the probability of a symbol collision.) In addition, not only are aliases created to nav to those folders, but variables that can be used in commands as $NAME_OF_BOOKMARK. Variable storage and bookmarks span across sessions. 
+
+Sometimes you might want to store variables that aren't local folders on your local machine across sessions. For that reason, I've added an ability to encode variables that show up in every bash session, completely separate from folder bookmarking. For instance, rsyncing files to a folder path on a remote computer, one might want to spinup a variable storing that path across bash sessions. 
 
 ```
 bookmark -v name_of_variable value_of_variable 
 ```
 
-And to display the available variables, simply run `bookmark -v`
+And to display the available session-wide variables, simply run `bookmark -v`
 
-To go back to the bookmark folder, just type `NAME_OF_BOOKMARK` in all caps. (Caps is used to reduce the probability of a symbol collision.)
