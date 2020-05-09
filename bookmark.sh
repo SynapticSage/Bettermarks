@@ -86,7 +86,7 @@ function show_bookmarks()
         echo ---------------------------------------- | lolcat
         printf '\tAvailable bookmarks' | lolcat
         echo ---------------------------------------- | lolcat
-        cat $bookmark_file | sed 's/\<alias\>//g' | sed 's/cd //g' | sed 's/=/\t=>\t/g'
+        cat $bookmark_file | sed 's/\<alias\>//g' | sed 's/cd //g' | sed 's/=/\t=>\t/g' | sed 's/#SEP/----------------------------------------/'
         #cat $bookmark_file
         echo refreshing bookmarks and variables...
         source $bookmark_file
