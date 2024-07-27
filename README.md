@@ -37,3 +37,8 @@ bookmark -v name_of_variable value_of_variable
 
 And to display the available session-wide variables, simply run `bookmark -v`
 
+# See also
+
+This library focuses more on defining bookmarks. But sometimes, we want to change to a directory rapidly we have not bookmarked. In which case, I recommend:
+
+`https://github.com/rupa/z` -- better for jumping around given directory access frequency
